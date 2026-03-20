@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Writer Buddy</title>
+  <style>
+    body { font-family: Arial; max-width: 600px; margin: 20px auto; }
+    textarea { width: 100%; height: 100px; margin-top: 10px; }
+    button { padding: 10px 15px; margin-top: 10px; }
+    .section { margin-bottom: 25px; }
+    select { padding: 5px; margin-right: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Writer Buddy</h1>
+
+  <!-- Daily Check-In -->
+  <div class="section">
+    <h2>Daily Check-In</h2>
+    <label>Mood:</label>
+    <select id="mood">
+      <option value="😃">😃 Happy</option>
+      <option value="😐">😐 Neutral</option>
+      <option value="😞">😞 Sad</option>
+      <option value="😩">😩 Frustrated</option>
+      <option value="😴">😴 Tired</option>
+    </select><br><br>
+
+    <label>Energy (1-5):</label>
+    <select id="energy">
+      <option value="1">1</option><option value="2">2</option>
+      <option value="3">3</option><option value="4">4</option>
+      <option value="5">5</option>
+    </select><br><br>
+
+    <label>Motivation (1-5):</label>
+    <select id="motivation">
+      <option value="1">1</option><option value="2">2</option>
+      <option value="3">3</option><option value="4">4</option>
+      <option value="5">5</option>
+    </select><br><br>
+
+    <label>Block:</label>
+    <select id="block">
+      <option value="none">None</option>
+      <option value="noIdeas">No ideas</option>
+      <option value="overthinking">Overthinking</option>
+      <option value="tired">Tired</option>
+      <option value="busy">Busy</option>
+      <option value="selfDoubt">Self-doubt</option>
+    </select><br><br>
+
+    <button onclick="generateAction()">Get Micro-Action</button>
+  </div>
+
+  <!-- Micro-Action Output -->
+  <div class="section">
+    <h2>Micro-Action</h2>
+    <p id="microAction">Your personalized writing action will appear here.</p>
+  </div>
+
+  <!-- Writing Box -->
+  <div class="section">
+    <h2>Low-Pressure Writing</h2>
+    <textarea id="writingBox" placeholder="Write freely here..."></textarea><br>
+    <button onclick="saveWriting()">Save Entry</button>
+    <p id="streak">Streak: 0 days</p>
+  </div>
+
+  <script>
+    // Simple in-memory streak (will reset on refresh)
+    let streak = 0;
+
+    function generateAction() {
+      const mood = document.getElementById("mood").value;
+      const energy = parseInt(document.getElementById("energy").value);
+      const motivation = parseInt(document.getElementById("motivation").value);
+      const block = document.getElementById("block").value;
+
+      let action = "";
+
+      // Determine micro-action based on mood, energy, block
+      if(block === "noIdeas") {
+        action = "Write 1 random sentence about a character or setting.";
+      } else if(block === "overthinking") {
+        action = "Write freely for 5 minutes, no editing.";
+      } else if(block === "selfDoubt") {
+        action = "Look at your past work and rewrite 1 sentence you like.";
+      } else if(block === "tired") {
+        action = "Write just 1 sentence to keep the streak alive.";
+      } else if(block === "busy") {
+        action = "Write a tiny 2-sentence scene.";
+      } else {
+        // Default based on energy
+        action = energy >= 4 ? "Write for 20 minutes." : "Write 2 sentences.";
+      }
+
+      document.getElementById("microAction").innerText = action;
+    }
+
+    function saveWriting() {
+      const content = document.getElementById("writingBox").value;
+      if(content.trim() !== "") {
+        streak += 1;
+        document.getElementById("streak").innerText = `Streak: ${streak} days`;
+        alert("Saved! Keep writing!");
+        document.getElementById("writingBox").value = "";
+      } else {
+        alert("Write something first!");
+      }
+    }
+  </script>
+</body>
+</html>
