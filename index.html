@@ -2,14 +2,86 @@
 <html>
 <head>
   <title>Writer Buddy</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
   <style>
-    body { font-family: Arial; max-width: 600px; margin: 20px auto; }
-    textarea { width: 100%; height: 100px; margin-top: 10px; }
-    button { padding: 10px 15px; margin-top: 10px; }
-    .section { margin-bottom: 25px; }
-    select { padding: 5px; margin-right: 10px; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #fdf6f0;
+      color: #333;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff6f61;
+    }
+
+    h2 {
+      color: #ff8a65;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+
+    button {
+      background-color: #ff6f61;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff8a65;
+    }
+
+    .section {
+      margin-bottom: 30px;
+      background-color: #fff2f0;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 1px 2px 5px rgba(0,0,0,0.1);
+    }
+
+    select {
+      padding: 5px;
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+
+    #microAction {
+      font-weight: bold;
+      font-size: 16px;
+      color: #ff3d00;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    #streak {
+      font-weight: bold;
+      color: #ff6f61;
+    }
   </style>
 </head>
+
 <body>
   <h1>Writer Buddy</h1>
 
@@ -63,11 +135,11 @@
     <h2>Low-Pressure Writing</h2>
     <textarea id="writingBox" placeholder="Write freely here..."></textarea><br>
     <button onclick="saveWriting()">Save Entry</button>
-    <p id="streak">Streak: 0 days</p>
+    <p id="streak">🔥 Streak: 0 days</p>
   </div>
 
+  <!-- Script -->
   <script>
-    // Simple in-memory streak (will reset on refresh)
     let streak = 0;
 
     function generateAction() {
@@ -78,30 +150,30 @@
 
       let action = "";
 
-      // Determine micro-action based on mood, energy, block
       if(block === "noIdeas") {
-        action = "Write 1 random sentence about a character or setting.";
+        action = "✏️ Write 1 random sentence about a character or setting!";
       } else if(block === "overthinking") {
-        action = "Write freely for 5 minutes, no editing.";
+        action = "🖊️ Write freely for 5 minutes, no editing.";
       } else if(block === "selfDoubt") {
-        action = "Look at your past work and rewrite 1 sentence you like.";
+        action = "💪 Look at past work and rewrite 1 sentence you like.";
       } else if(block === "tired") {
-        action = "Write just 1 sentence to keep the streak alive.";
+        action = "🛌 Write just 1 sentence to keep streak alive.";
       } else if(block === "busy") {
-        action = "Write a tiny 2-sentence scene.";
+        action = "⌛ Write a tiny 2-sentence scene.";
       } else {
-        // Default based on energy
-        action = energy >= 4 ? "Write for 20 minutes." : "Write 2 sentences.";
+        action = energy >= 4 ? "📝 Write for 20 minutes." : "✍️ Write 2 sentences.";
       }
 
-      document.getElementById("microAction").innerText = action;
+      const microEl = document.getElementById("microAction");
+      microEl.innerText = action;
+      microEl.style.opacity = 1;
     }
 
     function saveWriting() {
       const content = document.getElementById("writingBox").value;
       if(content.trim() !== "") {
         streak += 1;
-        document.getElementById("streak").innerText = `Streak: ${streak} days`;
+        document.getElementById("streak").innerText = `🔥 Streak: ${streak} days`;
         alert("Saved! Keep writing!");
         document.getElementById("writingBox").value = "";
       } else {
